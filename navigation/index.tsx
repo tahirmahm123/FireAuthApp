@@ -18,6 +18,10 @@ import SignInScreen from 'screens/SignInScreen';
 import SignUpScreen from 'screens/SignUpScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from 'types';
 import LinkingConfiguration from 'navigation/LinkingConfiguration';
+import Colors from '../constants/Colors';
+import useColorScheme from '../hooks/useColorScheme';
+import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import LinkingConfiguration from './LinkingConfiguration';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -67,7 +71,21 @@ function BottomTabNavigator() {
         component={SignInScreen}
         options={({ navigation }: RootTabScreenProps<'SignIn'>) => ({
           title: 'Sign In',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          headerRight: () => (
+            <Pressable
+              onPress={() => navigation.navigate('Modal')}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}>
+              <FontAwesome
+                name="info-circle"
+                size={25}
+                color={Colors[colorScheme].text}
+                style={{ marginRight: 15 }}
+              />
+            </Pressable>
+          ),
         })}
       />
       <BottomTab.Screen
